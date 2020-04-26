@@ -1,6 +1,6 @@
-# Spark AR Native UI Picker with Persistence
+# Spark AR Native UI Picker Module with Persistence Module
 
-Example code for using the Native UI Picker Module and the Persistence Module to store a Native UI Picker selection across multiple sessions.
+Example code to store a Native UI Picker selection across multiple selections with the Persistence Module.
 
 Spark AR Studio  
 Version: 86.0.0.14.239 (209175513)  
