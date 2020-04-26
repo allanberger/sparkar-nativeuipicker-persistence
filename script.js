@@ -8,8 +8,8 @@ const Diagnostics = require('Diagnostics');
 
 Promise.all([
 
-    // Initialize objects
-    
+    // Locate the objects in the Scene
+
     Textures.findFirst('picker01'),
     Textures.findFirst('picker02'),
     Textures.findFirst('picker03'),
@@ -30,12 +30,16 @@ Promise.all([
     const mat1 = results[4];
     const mat2 = results[5];
 
+    // Store a reference to the userScope
     const userScope = Persistence.userScope;
+    
+    // Create a JavaScript object to store the data
     var index = {};
     
     const picker = NativeUI.picker;
 
-    userScope.get('index').then(function(result) { // Whitelist the variable "index" in the capabilities of the Spark AR project
+    // Attempt to get the stored data and if successful...
+    userScope.get('index').then(function(result) { // Note: add 'index' to 'Whitelisted keys' under the 'Persistence' Capability
         
         Diagnostics.log('Successfully received data');
 
@@ -62,7 +66,7 @@ Promise.all([
 
         }).catch(function() {
         
-            // If the userScope is empty, index is 0
+            // 'index' is 0 by default if there is no data
             const configuration = {
                 selectedIndex: 0,
                 items: [
@@ -100,9 +104,12 @@ Promise.all([
         picker.configure(configuration);
         picker.visible = true;
 
+        // Monitor if the Native UI Picker selection changes
         picker.selectedIndex.monitor().subscribe(function(val) {
             if (val.newValue == i) {
                 results[6].material = configuration.mats[val.newValue].material;
+
+                // Attempt to store the data and if successful...
                 userScope.set('index', {i:0}).then(function(result) {
                 
                     // Output a success message
@@ -119,6 +126,8 @@ Promise.all([
 
             if (val.newValue == 1) {    
                 results[6].material = configuration.mats[val.newValue].material;
+                
+                // Attempt to store the data and if successful...
                 userScope.set('index', {i:1}).then(function(result) {
                 
                     // Output a success message
@@ -135,6 +144,8 @@ Promise.all([
 
             if (val.newValue == 2) {
                 results[6].material = configuration.mats[val.newValue].material;
+                
+                // Attempt to store the data and if successful...
                 userScope.set('index', {i:2}).then(function(result) {
                 
                     // Output a success message
@@ -151,6 +162,7 @@ Promise.all([
 
         });
 
+    // If not successful...
     }).catch(function(error) {
 
         // Output a failure message with the error returned
