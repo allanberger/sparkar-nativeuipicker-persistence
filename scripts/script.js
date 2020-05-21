@@ -10,9 +10,9 @@ Promise.all([
 
     // Locate the objects in the Scene
 
-    Textures.findFirst('picker01'),
-    Textures.findFirst('picker02'),
-    Textures.findFirst('picker03'),
+    Textures.findFirst('picker0'),
+    Textures.findFirst('picker1'),
+    Textures.findFirst('picker2'),
 
     Materials.findFirst('mat0'),
     Materials.findFirst('mat1'),
@@ -29,6 +29,8 @@ Promise.all([
     const mat0 = results[3];
     const mat1 = results[4];
     const mat2 = results[5];
+    
+    const colorPlane = results[6];
 
     // Store a reference to the userScope
     const userScope = Persistence.userScope;
@@ -47,7 +49,7 @@ Promise.all([
         const configuration = {
             selectedIndex: result.i,
 
-            // Image textures that are represented as UI buttons in the picker
+            // The image textures that are represented as UI buttons in the picker
             items: [
                 {image_texture: picker0},
                 {image_texture: picker1},
@@ -64,11 +66,10 @@ Promise.all([
         picker.configure(configuration);
         picker.visible = true;
 
-        }).catch(function() {
+        }).catch(function(i) {
         
-            // 'index' is 0 by default if there is no data
             const configuration = {
-                selectedIndex: 0,
+                selectedIndex: i,
                 items: [
                     {image_texture: picker0},
                     {image_texture: picker1},
@@ -87,6 +88,7 @@ Promise.all([
         });
 
         const configuration = {
+            // 'index' is 0 by default if there is no data
             selectedIndex: 0,
             items: [
                 {image_texture: picker0},
@@ -106,14 +108,14 @@ Promise.all([
 
         // Monitor if the Native UI Picker selection changes
         picker.selectedIndex.monitor().subscribe(function(val) {
-            if (val.newValue == i) {
-                results[6].material = configuration.mats[val.newValue].material;
+            if (val.newValue == 0) {
+                colorPlane.material = configuration.mats[val.newValue].material;
 
                 // Attempt to store the data and if successful...
                 userScope.set('index', {i:0}).then(function(result) {
                 
                     // Output a success message
-                    Diagnostics.log('Successfully stored as i in index');
+                    Diagnostics.log('Successfully stored selection');
                 
                 // If not successful...
                 }).catch(function(error) {
@@ -125,13 +127,13 @@ Promise.all([
             }
 
             if (val.newValue == 1) {    
-                results[6].material = configuration.mats[val.newValue].material;
+                colorPlane.material = configuration.mats[val.newValue].material;
                 
                 // Attempt to store the data and if successful...
                 userScope.set('index', {i:1}).then(function(result) {
                 
                     // Output a success message
-                    Diagnostics.log('Successfully stored as i in index');
+                    Diagnostics.log('Successfully stored selection');
                 
                 // If not successful...
                 }).catch(function(error) {
@@ -143,13 +145,13 @@ Promise.all([
             }
 
             if (val.newValue == 2) {
-                results[6].material = configuration.mats[val.newValue].material;
+                colorPlane.material = configuration.mats[val.newValue].material;
                 
                 // Attempt to store the data and if successful...
                 userScope.set('index', {i:2}).then(function(result) {
                 
                     // Output a success message
-                    Diagnostics.log('Successfully stored as i in index');
+                    Diagnostics.log('Successfully stored selection');
                 
                 // If not successful...
                 }).catch(function(error) {
